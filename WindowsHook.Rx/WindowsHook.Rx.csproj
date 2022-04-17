@@ -2,11 +2,11 @@
   <PropertyGroup>
     <AssemblyName>WindowsHook.Rx</AssemblyName>
     <RootNamespace>WindowsHook.Rx</RootNamespace>
-    <TargetFrameworks>netcoreapp3.0;net46</TargetFrameworks>
+    <TargetFrameworks>net6;net48</TargetFrameworks>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="System.Reactive" Version="4.3.2" />
+    <PackageReference Include="System.Reactive" Version="5.0.0" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
     <PackageReference Include="System.Reactive">

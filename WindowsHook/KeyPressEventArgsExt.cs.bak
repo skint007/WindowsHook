@@ -15,12 +15,11 @@ namespace WindowsHook
     /// </summary>
     public class KeyPressEventArgsExt : KeyPressEventArgs
     {
-        internal KeyPressEventArgsExt(char keyChar, int timestamp, bool isInjectedKey)
+        internal KeyPressEventArgsExt(char keyChar, int timestamp)
             : base(keyChar)
         {
             IsNonChar = keyChar == (char) 0x0;
             Timestamp = timestamp;
-            IsInjectedKey = isInjectedKey;
         }
 
         /// <summary>
@@ -31,7 +30,7 @@ namespace WindowsHook
         ///     key.
         /// </param>
         public KeyPressEventArgsExt(char keyChar)
-            : this(keyChar, Environment.TickCount, false)
+            : this(keyChar, Environment.TickCount)
         {
         }
 
@@ -45,11 +44,6 @@ namespace WindowsHook
         /// </summary>
         public int Timestamp { get; }
 
-        /// <summary>
-        ///     True if event was injected into the system.
-        /// </summary>
-        public bool IsInjectedKey { get; }
-
         internal static IEnumerable<KeyPressEventArgsExt> FromRawDataApp(CallbackData data)
         {
             var wParam = data.WParam;
@@ -60,7 +54,6 @@ namespace WindowsHook
             const uint maskKeydown = 0x40000000; // for bit 30
             const uint maskKeyup = 0x80000000; // for bit 31
             const uint maskScanCode = 0xff0000; // for bit 23-16
-            const uint maskInjectedKey = 0x00000010;
 
             var flags = (uint) lParam.ToInt64();
 
@@ -68,7 +61,6 @@ namespace WindowsHook
             var wasKeyDown = (flags & maskKeydown) > 0;
             //bit 31 Specifies the transition state. The value is 0 if the key is being pressed and 1 if it is being released.
             var isKeyReleased = (flags & maskKeyup) > 0;
-            var isInjectedKey = (flags & maskInjectedKey) > 0;
 
             if (!wasKeyDown && !isKeyReleased)
                 yield break;
@@ -100,13 +92,10 @@ namespace WindowsHook
             var scanCode = keyboardHookStruct.ScanCode;
             var fuState = keyboardHookStruct.Flags;
 
-            const uint maskInjectedKey = 0x00000010;
-            var isInjectedKey = (fuState & maskInjectedKey) > 0;
-
             if (virtualKeyCode == KeyboardNativeMethods.VK_PACKET)
             {
                 var ch = (char) scanCode;
-                yield return new KeyPressEventArgsExt(ch, keyboardHookStruct.Time, isInjectedKey);
+                yield return new KeyPressEventArgsExt(ch, keyboardHookStruct.Time);
             }
             else
             {
@@ -114,7 +103,7 @@ namespace WindowsHook
                 KeyboardNativeMethods.TryGetCharFromKeyboardState(virtualKeyCode, scanCode, fuState, out chars);
                 if (chars == null) yield break;
                 foreach (var current in chars)
-                    yield return new KeyPressEventArgsExt(current, keyboardHookStruct.Time, isInjectedKey);
+                    yield return new KeyPressEventArgsExt(current, keyboardHookStruct.Time);
             }
         }
     }

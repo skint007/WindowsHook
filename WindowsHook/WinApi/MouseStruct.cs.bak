@@ -2,7 +2,6 @@
 // Copyright (c) 2015 George Mamaladze
 // See license.txt or https://mit-license.org/
 
-using System;
 using System.Runtime.InteropServices;
 
 namespace WindowsHook.WinApi
@@ -13,13 +12,14 @@ namespace WindowsHook.WinApi
     /// <remarks>
     ///     See full documentation at http://globalmousekeyhook.codeplex.com/wikipage?title=MouseStruct
     /// </remarks>
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit)]
     internal struct MouseStruct
     {
         /// <summary>
         ///     Specifies a Point structure that contains the X- and Y-coordinates of the cursor, in screen coordinates.
         /// </summary>
-        public Point Point;
+        [FieldOffset(0x00)] public Point Point;
+
         /// <summary>
         ///     Specifies information associated with the message.
         /// </summary>
@@ -43,15 +43,11 @@ namespace WindowsHook.WinApi
         ///         </item>
         ///     </list>
         /// </remarks>
-        public int MouseData;
-        /// <summary>
-        ///     Specifies the extended-key flag, event-injected flag, context code, and transition-state flag.
-        /// </summary>
-        public int Flags;
+        [FieldOffset(0x0A)] public short MouseData;
+
         /// <summary>
         ///     Returns a Timestamp associated with the input, in System Ticks.
         /// </summary>
-        public int Timestamp;
-        public UIntPtr ExtraInfo;
+        [FieldOffset(0x10)] public int Timestamp;
     }
 }

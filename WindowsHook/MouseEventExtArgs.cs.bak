@@ -23,15 +23,13 @@ namespace WindowsHook
         /// <param name="timestamp">The system tick count when the event occurred.</param>
         /// <param name="isMouseButtonDown">True if event signals mouse button down.</param>
         /// <param name="isMouseButtonUp">True if event signals mouse button up.</param>
-        /// <param name="isInjected">True if event was injected into the sytem.</param>
         internal MouseEventExtArgs(MouseButtons buttons, int clicks, Point point, int delta, int timestamp,
-            bool isMouseButtonDown, bool isMouseButtonUp, bool isInjected)
+            bool isMouseButtonDown, bool isMouseButtonUp)
             : base(buttons, clicks, point.X, point.Y, delta)
         {
             IsMouseButtonDown = isMouseButtonDown;
             IsMouseButtonUp = isMouseButtonUp;
             Timestamp = timestamp;
-            IsInjected = isInjected;
         }
 
         /// <summary>
@@ -72,11 +70,6 @@ namespace WindowsHook
         public int Timestamp { get; }
 
         /// <summary>
-        ///    True if event was injected into the system.
-        /// </summary>
-        public bool IsInjected { get; }
-
-        /// <summary>
         /// </summary>
         internal Point Point
         {
@@ -111,7 +104,7 @@ namespace WindowsHook
         private static MouseEventExtArgs FromRawDataUniversal(IntPtr wParam, MouseStruct mouseInfo)
         {
             var button = MouseButtons.None;
-            int mouseDelta = 0;
+            short mouseDelta = 0;
             var clickCount = 0;
 
             var isMouseButtonDown = false;
@@ -197,9 +190,6 @@ namespace WindowsHook
                     break;
             }
 
-            const uint maskInjected = 0x00000001;
-            var isInjected = (mouseInfo.Flags & maskInjected) > 0;
-
             var e = new MouseEventExtArgs(
                 button,
                 clickCount,
@@ -207,15 +197,14 @@ namespace WindowsHook
                 mouseDelta,
                 mouseInfo.Timestamp,
                 isMouseButtonDown,
-                isMouseButtonUp,
-                isInjected);
+                isMouseButtonUp);
 
             return e;
         }
 
         internal MouseEventExtArgs ToDoubleClickEventArgs()
         {
-            return new MouseEventExtArgs(Button, 2, Point, Delta, Timestamp, IsMouseButtonDown, IsMouseButtonUp, false);
+            return new MouseEventExtArgs(Button, 2, Point, Delta, Timestamp, IsMouseButtonDown, IsMouseButtonUp);
         }
     }
 }
