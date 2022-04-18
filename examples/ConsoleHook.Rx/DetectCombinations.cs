@@ -5,7 +5,7 @@
 using System;
 using System.Reactive.Linq;
 using System.Threading;
-using WindowsHook;
+using WindowsHookEx;
 using WindowsHook.Rx;
 
 namespace ConsoleHook.Rx

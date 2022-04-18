@@ -55,9 +55,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\WindowsHook\WindowsHook.csproj">
+    <ProjectReference Include="..\..\WindowsHookEx\WindowsHookEx.csproj">
       <Project>{d9e61976-6b36-4063-b3da-4f22334760af}</Project>
-      <Name>WindowsHook</Name>
+      <Name>WindowsHookEx</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

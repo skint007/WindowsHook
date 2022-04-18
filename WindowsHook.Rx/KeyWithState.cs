@@ -3,8 +3,8 @@
 // See license.txt or https://mit-license.org/
 
 using System;
-using WindowsHook;
-using WindowsHook.Implementation;
+using WindowsHookEx;
+using WindowsHookEx.Implementation;
 
 namespace WindowsHook.Rx
 {

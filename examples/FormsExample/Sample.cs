@@ -4,8 +4,8 @@
 
 using System;
 using System.Windows.Forms;
-using WindowsHook;
-using KeyPressEventArgs = WindowsHook.KeyPressEventArgs;
+using WindowsHookEx;
+using KeyPressEventArgs = WindowsHookEx.KeyPressEventArgs;
 
 namespace Demo
 {

@@ -4,7 +4,7 @@
 
 using System;
 using System.Threading;
-using WindowsHook;
+using WindowsHookEx;
 
 namespace ConsoleHook
 {

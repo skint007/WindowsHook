@@ -80,9 +80,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\WindowsHook\WindowsHook.csproj">
+    <ProjectReference Include="..\..\WindowsHookEx\WindowsHookEx.csproj">
       <Project>{d9e61976-6b36-4063-b3da-4f22334760af}</Project>
-      <Name>WindowsHook</Name>
+      <Name>WindowsHookEx</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\WindowsHook.Rx\WindowsHook.Rx.csproj">
       <Project>{9754749c-1eea-4468-8c32-b5bac3235f54}</Project>

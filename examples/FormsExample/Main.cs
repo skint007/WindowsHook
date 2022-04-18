@@ -5,10 +5,10 @@
 using System;
 using System.ComponentModel;
 using System.Windows.Forms;
-using WindowsHook;
-using KeyEventArgs = WindowsHook.KeyEventArgs;
-using KeyPressEventArgs = WindowsHook.KeyPressEventArgs;
-using MouseEventArgs = WindowsHook.MouseEventArgs;
+using WindowsHookEx;
+using KeyEventArgs = WindowsHookEx.KeyEventArgs;
+using KeyPressEventArgs = WindowsHookEx.KeyPressEventArgs;
+using MouseEventArgs = WindowsHookEx.MouseEventArgs;
 
 namespace Demo
 {
@@ -100,7 +100,7 @@ namespace Demo
 
         private void HookManager_Supress(object sender, MouseEventExtArgs e)
         {
-            if (e.Button != WindowsHook.MouseButtons.Right)
+            if (e.Button != WindowsHookEx.MouseButtons.Right)
             {
                 Log(string.Format("MouseDown \t\t {0}\n", e.Button));
                 return;

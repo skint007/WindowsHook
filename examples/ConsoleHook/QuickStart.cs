@@ -4,7 +4,7 @@
 
 using System;
 using System.Collections.Generic;
-using WindowsHook;
+using WindowsHookEx;
 
 namespace ConsoleHook
 {
