@@ -5,10 +5,10 @@
     <RootNamespace>WindowsHookEx</RootNamespace>
     <TargetFrameworks>net6;net48</TargetFrameworks>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <PackageProjectUrl>https://github.com/skint007/WindowsHook</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/skint007/WindowsHookEx</PackageProjectUrl>
     <PackageIcon>mouse-keyboard-hook-logo64x64.png</PackageIcon>
     <PackageIconUrl />
-    <RepositoryUrl>https://github.com/skint007/WindowsHook</RepositoryUrl>
+    <RepositoryUrl>https://github.com/skint007/WindowsHookEx</RepositoryUrl>
     <Authors>Mark Kang</Authors>
     <PackageTags>hook, .net core, wpf, winform, global, spy,event, mouse, keyboard</PackageTags>
     <PackageId>WindowsHookEx</PackageId>

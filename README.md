@@ -1,11 +1,10 @@
 # WindowsHook
-Based on [MouseKeyHook](https://github.com/gmamaladze/globalmousekeyhook) by gmamaladze . I made some changes to to support .Net 4.0+,.Net Core 3.0+, WinForm, WPF etc. To make this project not to depend on System.Windows.Forms, some codes are from Microsoft which files are under system.Windows.Forms. I changed original namepsace to WindowsHook.
+Based on [WindowsHook](https://github.com/topstarai/WindowsHook) by topstarai. Added injected flag detection to both mouse events and keyboard events. This is useful if for example you want to preform continuous mouse clicks of the same type of the currently held down mouse button. Supports .Net 4.8,.Net 6+, WinForm, WPF etc.
 
 [![nuget][nuget-badge]][nuget-url]
 
- [nuget-badge]: https://img.shields.io/badge/nuget-v5.4.0-blue.svg
- [nuget-url]: https://www.nuget.org/packages/WindowsHook
-[![Build Status](https://intelcells.visualstudio.com/WindowsHook/_apis/build/status/topstarai.WindowsHook?branchName=master)](https://intelcells.visualstudio.com/WindowsHook/_build/latest?definitionId=1&branchName=master)
+ [nuget-badge]: https://img.shields.io/badge/nuget-v1.1.1-blue.svg
+ [nuget-url]: https://www.nuget.org/packages/WindowsHookEx
 
 ![Mouse and Keyboard Hooking Library in c#](/mouse-keyboard-hook-logo64x64.png)
 
@@ -15,19 +14,76 @@ This library allows you to tap keyboard and mouse, to detect and record their ac
 
 ## Prerequisites
 
- - **Windows:** .Net 4.0+,.Net Core 3.0+, Windows Desktop Apps(WinForm, WPF etc.)
+ - **Windows:** .Net 4.8,.Net 6+, Windows Desktop Apps(WinForm, WPF etc.)
 
 ## Installation and sources
 
 <pre>
-  nuget install WindowsHook
+  nuget install WindowsHookEx
 </pre>
 
  - [NuGet package][nuget-url]
  - [Source code][source-url]
 
- [source-url]: https://github.com/topstarai/WindowsHook
+ [source-url]: https://github.com/skint007/WindowsHookEx
 
+ ## Injected flag usage
+ 
+ ```csharp
+private IKeyboardMouseEvents globalHook = Hook.GlobalEvents();
+private bool IsLeftMouseDown;
+private bool IsRightMouseDown;
+
+private void Subscribe()
+{
+	globalHook.MouseDownExt += GlobalHook_MouseDownExt;
+	globalHook.MouseUpExt += GlobalHook_MouseUpExt;
+}
+
+private void UnSubscribe()
+{
+	globalHook.MouseDownExt -= GlobalHook_MouseDownExt;
+	globalHook.MouseUpExt -= GlobalHook_MouseUpExt;
+	
+	globalHook.Dispose();
+}
+
+private void GlobalHook_MouseDownExt(object? sender, MouseEventExtArgs e)
+{
+	switch (e.Button)
+	{
+		case MouseButtons.Left: if (!e.IsInjected) IsLeftMouseDown = true; break;
+		case MouseButtons.Right: if (!e.IsInjected) IsRightMouseDown = true; break;
+	}
+	
+	if(IsLeftMouseDown)
+	{
+		_ = FastClick();
+	}
+}
+
+private void GlobalHook_MouseUpExt(object? sender, MouseEventExtArgs e)
+{
+	switch (e.Button)
+	{
+		case MouseButtons.Left: if (!e.IsInjected) IsLeftMouseDown = false; break;
+		case MouseButtons.Right: if (!e.IsInjected) IsRightMouseDown = false; break;
+	}
+}
+
+private async Task FastClick()
+{
+	await Task.Run(() =>
+	{
+		while(IsLeftMouseDown)
+		{
+			//Send left mouse click code here
+			Thread.Sleep(100);
+		}
+	});
+}
+ ```
+ 
  ## Usage
 
  ```csharp
